@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gastos Públicos com Viagens Internacionais</title>
+<style>
+  /* Reset e base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #121212;
+    color: #e0e0e0;
+    margin: 0; padding: 0;
+    line-height: 1.5;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 2rem auto 4rem;
+    background: #1e1e2f;
+    border-radius: 16px;
+    box-shadow:
+      0 0 8px rgba(255, 255, 255, 0.05),
+      inset 0 0 30px #2a2a44;
+    padding: 30px 40px;
+  }
+  h1 {
+    color: #56ccf2;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    text-align: center;
+    text-shadow: 0 0 6px #56ccf2;
+  }
+  h2 {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #9fc5e8;
+    margin-top: 0; margin-bottom: 2rem;
+    font-weight: 500;
+  }
+  h3 {
+    color: #76c7c0;
+    border-bottom: 2px solid #3ddbd9;
+    padding-bottom: 8px;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  p, ul {
+    font-size: 1rem;
+    color: #cfd8dc;
+  }
+  ul {
+    padding-left: 20px;
+  }
+  ul li {
+    margin-bottom: 6px;
+  }
+
+  /* Painel filtros */
+  .filters {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .filters > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+  }
+  .filters label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #56ccf2;
+    user-select: none;
+  }
+  .filters input[type="text"],
+  .filters select {
+    background: #2a2a44;
+    border: none;
+    border-radius: 8px;
+    color: #e0e0e0;
+    padding: 8px 12px;
+    font-size: 1rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: background-color 0.3s ease;
+  }
+  .filters input[type="text"]:focus,
+  .filters select:focus {
+    background: #3ddbd9;
+    color: #121212;
+  }
+
+  /* Tabela estilizada */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 12px #3ddbd9a6;
+    background: #2a2a44;
+  }
+  thead {
+    background: linear-gradient(90deg, #56ccf2, #2a9df4);
+  }
+  th, td {
+    padding: 12px 18px;
+    text-align: left;
+    cursor: default;
+    user-select: none;
+  }
+  thead th {
+    color: #e0f7fa;
+    font-weight: 700;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+  }
+  thead th:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  tbody tr:nth-child(odd) {
+    background: #24243a;
+  }
+  tbody tr:nth-child(even) {
+    background: #1f1f31;
+  }
+  tbody tr:hover {
+    background: #3ddbd9;
+    color: #121212;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* Triângulo para indicar ordenação */
+  .sort-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    width: 0; 
+    height: 0; 
+    margin-top: -3.5px;
+    border-style: solid;
+    border-width: 6px 5px 0 5px;
+    border-color: #e0f7fa transparent transparent transparent;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  .sort-arrow.desc {
+    border-width: 0 5px 6px 5px;
+    border-color: transparent transparent #e0f7fa transparent;
+  }
+
+  /* Tooltip */
+  th[data-tooltip]:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    background: #3ddbd9;
+    color: #121212;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Responsividade */
+  @media(max-width: 820px) {
+    .filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .filters > div {
+      min-width: unset;
+      width: 100%;
+    }
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    tbody tr {
+      margin-bottom: 20px;
+      border-radius: 12px;
+      background: #2a2a44;
+      padding: 10px;
+    }
+    tbody td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+      font-size: 0.9rem;
+      color: #cfd8dc;
+    }
+    tbody td::before {
+      position: absolute;
+      left: 15px;
+      width: 45%;
+      white-space: nowrap;
+      font-weight: 700;
+      color: #76c7c0;
+      text-align: left;
+      content: attr(data-label);
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🧾 Gastos Públicos com Viagens Internacionais</h1>
+  <h2>Dezembro 2024 a Fevereiro 2025</h2>
+
+  <h3>🧩 Objetivo</h3>
+  <p>Apresentar um panorama das viagens internacionais realizadas por servidores públicos federais no final de 2024 e início de 2025, com foco nos valores investidos, destinos e períodos, identificando oportunidades para maior transparência e controle de gastos.</p>
+
+  <h3>📊 Resumo Geral</h3>
+  <p><strong>Período analisado:</strong> 28/12/2024 a 04/02/2025</p>
+  <p><strong>Total de viagens analisadas:</strong> 30+</p>
+  <p><strong>Valor total estimado gasto:</strong> +R$ 300 mil</p>
+  <p><strong>Principais destinos:</strong> EUA, Argentina, Chile, Antártica, Portugal</p>
+
+  <h3>Órgãos envolvidos:</h3>
+  <ul>
+    <li>Ministério das Relações Exteriores</li>
+    <li>Ministério da Defesa</li>
+    <li>Ministério do Meio Ambiente</li>
+    <li>Instituto Brasileiro do Meio Ambiente</li>
+  </ul>
+  <p>Algumas viagens envolveram famílias inteiras ou múltiplos membros do mesmo núcleo.</p>
+
+  <!-- Filtros -->
+  <div class="filters" aria-label="Filtros da tabela">
+    <div>
+      <label for="searchName">🔍 Pesquisar Nome</label>
+      <input type="text" id="searchName" placeholder="Digite o nome..." aria-label="Pesquisar por nome">
+    </div>
+    <div>
+      <label for="filterOrgao">🏛️ Filtrar por Órgão</label>
+      <select id="filterOrgao" aria-label="Filtro por órgão">
+        <option value="">Todos órgãos</option>
+      </select>
+    </div>
+    <div>
+      <label for="filterDestino">🗺️ Filtrar por Destino</label>
+      <select id="filterDestino" aria-label="Filtro por destino">
+        <option value="">Todos destinos</option>
+      </select>
+    </div>
+  </div>
+
+  <h3>👥 Viagens com Dados Relevantes</h3>
+  <table id="tableViagens" aria-label="Tabela de viagens com dados relevantes">
+    <thead>
+      <tr>
+        <th data-column="nome" data-tooltip="Clique para ordenar por Nome">Nome <span class="sort-arrow"></span></th>
+        <th data-column="destino" data-tooltip="Clique para ordenar por Destino">Destino(s) <span class="sort-arrow"></span></th>
+        <th data-column="orgao" data-tooltip="Clique para ordenar por Órgão">Órgão / Entidade <span class="sort-arrow"></span></th>
+        <th data-column="periodo" data-tooltip="Clique para ordenar por Período">Período <span class="sort-arrow"></span></th>
+        <th data-column="valor" data-tooltip="Clique para ordenar por Valor">Valor (R$) <span class="sort-arrow"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows inserted by JS -->
+    </tbody>
+  </table>
+
+  <h3>🔎 Observações Relevantes</h3>
+  <ul>
+    <li>Algumas viagens envolveram valores superiores a R$ 20 mil por pessoa.</li>
+    <li>Diversos registros apresentam falta de informação sobre destinos e cargos.</li>
+    <li>Houve casos de urgência, como a viagem à Antártica e viagens familiares simultâneas a Los Angeles (Peplau/Oliveira).</li>
+    <li>Em certos casos, a mesma pessoa foi registrada em diferentes destinos em curto intervalo de tempo.</li>
+  </ul>
+
+  <h3>💰 Reflexão sobre os Gastos</h3>
+  <p>Embora missões internacionais possam ser justificadas, os dados sugerem:</p>
+  <ul>
+    <li>Falta de padronização na transparência (dados incompletos ou protegidos);</li>
+    <li>Necessidade de melhor acompanhamento e critérios mais rígidos de aprovação;</li>
+    <li>Oportunidade para adoção de políticas de economia e auditoria contínua, especialmente em tempos de contenção fiscal.</li>
+  </ul>
+
+  <h3>📌 Conclusão</h3>
+  <p>Os dados apresentados apontam para um investimento significativo em viagens internacionais em um curto período. Recomenda-se:</p>
+  <ul>
+    <li>Reavaliação de critérios de urgência;</li>
+    <li>Maior divulgação das justificativas;</li>
+    <li>Uso de indicadores de custo-benefício por missão.</li>
+  </ul>
+
+</div>
+
+<script>
+  const viagensData = [
+    {"nome":"Luiz Henrique Diniz Araujo","destino":"Lisboa/Portugal","orgao":"Sem informação","periodo":"30/12/2024 – 04/02/2025","valor":0.00},
+    {"nome":"Paula Cardoso Pires","destino":"Sem informação","orgao":"Ministério das Relações Exteriores","periodo":"30/12/2024 – 29/01/2025","valor":20681.38},
+    {"nome":"Katcha Donida Osorio","destino":"Sem informação","orgao":"Ministério das Relações Exteriores","periodo":"30/12/2024 – 31/01/2025","valor":5477.53},
+    {"nome":"Rodrigo Otavio Penteado Moraes","destino":"Rio de Janeiro/RJ","orgao":"Ministério das Relações Exteriores","periodo":"30/12/2024 – 29/01/2025","valor":20681.38},
+    {"nome":"Rafael da Cunha Moraes","destino":"Punta Arenas/Chile, Antártica, Pelotas/RS","orgao":"Ministério do Meio Ambiente / IBAMA","periodo":"30/12/2024 – 26/01/2025","valor":23909.34},
+    {"nome":"Luiz Eduardo de A. V. Pedroso","destino":"Rio de Janeiro/RJ","orgao":"Ministério das Relações Exteriores","periodo":"30/12/2024 – 31/01/2025","valor":5481.59},
+    {"nome":"Ana Beatriz Lima de Paula","destino":"Montevidéu/Uruguai, Rio de Janeiro/RJ","orgao":"Ministério da Defesa / Exército","periodo":"30/12/2024 – 01/01/2025","valor":3556.10},
+    {"nome":"Andre Luiz de Melo Franco","destino":"Buenos Aires/Argentina, Natal/RN","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":3304.86},
+    {"nome":"Ana Flavia de Farias Franco","destino":"Buenos Aires/Argentina, Natal/RN","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":3304.86},
+    {"nome":"Beatriz Carvalho Falcão","destino":"Garden City, NY / EUA","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 20/01/2025","valor":9685.20},
+    {"nome":"Flavia Ferreira de Farias Franco","destino":"Buenos Aires/Argentina, Natal/RN","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":3304.86},
+    {"nome":"Eduardo Carvalho Falcão","destino":"Garden City, NY / EUA","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 20/01/2025","valor":7932.72},
+    {"nome":"Glauco Bentamaro Manfrim Porto","destino":"São Paulo/SP","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 04/02/2025","valor":8828.97},
+    {"nome":"Carlos Frederico B. P. da Silva","destino":"Rio de Janeiro/RJ","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 27/01/2025","valor":13629.22},
+    {"nome":"Gabriele Wolff","destino":"Sem informação","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 27/01/2025","valor":13629.22},
+    {"nome":"Ana Luiza Ramos Capeleto","destino":"Santiago/Chile, Florianópolis/SC","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":1493.36},
+    {"nome":"Tiago Ramos Capeleto","destino":"Santiago/Chile, Florianópolis/SC","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":1493.36},
+    {"nome":"Milena Ramos Capeleto","destino":"Santiago/Chile, Florianópolis/SC","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":1493.36},
+    {"nome":"Alexandre Santos Bezerra","destino":"Quito/Equador, Brasília/DF","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":7089.17},
+    {"nome":"Gabriela Lacerda Prado Bezerra","destino":"Quito/Equador, Brasília/DF","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":2502.28},
+    {"nome":"Lizandro Farencena Capeleto","destino":"Santiago/Chile, Florianópolis/SC","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":1493.36},
+    {"nome":"Tatiana Lacerda Prado Bezerra","destino":"Quito/Equador, Brasília/DF","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":2502.28},
+    {"nome":"Rodrigo Schmidt Rodrigues","destino":"Quito/Equador, Porto Alegre/RS","orgao":"Ministério da Defesa / Exército","periodo":"29/12/2024 – 31/12/2024","valor":7466.56},
+    {"nome":"Daniela da Silva Peplau","destino":"Los Angeles / EUA","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 31/12/2024","valor":7523.81},
+    {"nome":"Laura Peplau Oliveira","destino":"Sem informação","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 31/12/2024","valor":7523.81},
+    {"nome":"Heitor Peplau Oliveira","destino":"Sem informação","orgao":"Ministério das Relações Exteriores","periodo":"29/12/2024 – 31/12/2024","valor":7523.81},
+    {"nome":"Leonardo Sotero Caio","destino":"Belmopan / Belize","orgao":"Ministério das Relações Exteriores","periodo":"28/12/2024 – 02/02/2025","valor":20006.82},
+    {"nome":"Paulo Henrique de S. Cavalcante","destino":"Rio de Janeiro/RJ","orgao":"Ministério das Relações Exteriores","periodo":"28/12/2024 – 26/01/2025","valor":13696.73}
+  ];
+
+  // Preenche filtros de órgão e destino
+  function preencherFiltros(){
+    const orgaoSet = new Set();
+    const destinoSet = new Set();
+    viagensData.forEach(item=>{
+      if(item.orgao) orgaoSet.add(item.orgao);
+      if(item.destino) {
+        item.destino.split(',').map(d => d.trim()).forEach(d => destinoSet.add(d));
+      }
+    });
+    const selectOrgao = document.getElementById('filterOrgao');
+    const selectDestino = document.getElementById('filterDestino');
+    selectOrgao.querySelectorAll('option:not(:first-child)').forEach(o => o.remove());
+    selectDestino.querySelectorAll('option:not(:first-child)').forEach(o => o.remove());
+
+    Array.from(orgaoSet).sort().forEach(orgao => {
+      const option = document.createElement('option');
+      option.value = orgao;
+      option.textContent = orgao;
+      selectOrgao.appendChild(option);
+    });
+    Array.from(destinoSet).sort().forEach(destino => {
+      const option = document.createElement('option');
+      option.value = destino;
+      option.textContent = destino;
+      selectDestino.appendChild(option);
+    });
+  }
+
+  const tableBody = document.querySelector('#tableViagens tbody');
+  let currentSortColumn = null;
+  let currentSortAsc = true;
+
+  // Atualiza a tabela conforme filtros e ordenação ativados
+  function atualizarTabela(){
+    const searchName = document.getElementById('searchName').value.toLowerCase().trim();
+    const filtroOrgao = document.getElementById('filterOrgao').value;
+    const filtroDestino = document.getElementById('filterDestino').value;
+
+    // Se nenhum filtro nem busca preenchido, mostrar todos os dados
+    if(searchName === '' && filtroOrgao === '' && filtroDestino === ''){
+      montarLinhas(viagensData);
+      return;
+    }
+
+    // Filtrar dados
+    let filtered = viagensData.filter(item => {
+      const nomeMatch = item.nome.toLowerCase().includes(searchName);
+      const orgaoMatch = !filtroOrgao || item.orgao === filtroOrgao;
+      const destinoItems = item.destino.split(',').map(x => x.trim());
+      const destinoMatch = !filtroDestino || destinoItems.includes(filtroDestino);
+      return nomeMatch && orgaoMatch && destinoMatch;
+    });
+
+    // Ordenar dados
+    if(currentSortColumn){
+      filtered.sort((a,b) => {
+        let valA = a[currentSortColumn];
+        let valB = b[currentSortColumn];
+        if(currentSortColumn === 'valor'){
+          return currentSortAsc ? valA - valB : valB - valA;
+        }
+        valA = valA.toLowerCase ? valA.toLowerCase() : valA;
+        valB = valB.toLowerCase ? valB.toLowerCase() : valB;
+        if(valA < valB) return currentSortAsc ? -1 : 1;
+        if(valA > valB) return currentSortAsc ? 1 : -1;
+        return 0;
+      });
+    }
+
+    montarLinhas(filtered);
+  }
+
+  // Monta linhas da tabela a partir do array de objetos recebido
+  function montarLinhas(data){
+    tableBody.innerHTML = '';
+    if(data.length === 0){
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.colSpan = 5;
+      td.style.textAlign = 'center';
+      td.style.color = '#ff6b6b';
+      td.textContent = 'Nenhum resultado encontrado';
+      tr.appendChild(td);
+      tableBody.appendChild(tr);
+      return;
+    }
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td data-label="Nome">${item.nome}</td>
+        <td data-label="Destino(s)">${item.destino}</td>
+        <td data-label="Órgão / Entidade">${item.orgao}</td>
+        <td data-label="Período">${item.periodo}</td>
+        <td data-label="Valor (R$)">${item.valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td>
+      `;
+      tableBody.appendChild(tr);
+    });
+  }
+
+  // Clique nas colunas para ordenação
+  function cabeçalhoClique(e){
+    const th = e.currentTarget;
+    const coluna = th.getAttribute('data-column');
+    if(currentSortColumn === coluna){
+      currentSortAsc = !currentSortAsc;
+    } else {
+      currentSortColumn = coluna;
+      currentSortAsc = true;
+    }
+    atualizarSetaOrdenacao();
+    atualizarTabela();
+  }
+
+  // Atualiza o indicador visual da ordenação
+  function atualizarSetaOrdenacao(){
+    document.querySelectorAll('thead th').forEach(th => {
+      const arrow = th.querySelector('.sort-arrow');
+      const col = th.getAttribute('data-column');
+      arrow.classList.remove('desc');
+      if(col === currentSortColumn){
+        if(!currentSortAsc) arrow.classList.add('desc');
+        arrow.style.opacity = '1';
+      } else {
+        arrow.style.opacity = '0';
+      }
+    });
+  }
+
+  // Inicialização
+  window.addEventListener('DOMContentLoaded', () => {
+    preencherFiltros();
+    montarLinhas(viagensData); // Mostrar todos inicialmente
+
+    // Setup eventos filtros
+    document.getElementById('searchName').addEventListener('input', atualizarTabela);
+    document.getElementById('filterOrgao').addEventListener('change', atualizarTabela);
+    document.getElementById('filterDestino').addEventListener('change', atualizarTabela);
+
+    // Setup eventos cabeçalho para ordenar
+    document.querySelectorAll('thead th').forEach(th => {
+      th.addEventListener('click', cabeçalhoClique);
+    });
+
+    atualizarSetaOrdenacao();
+  });
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ID Acesso</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto+Mono&display=swap');
+  body {
+    font-family: 'Roboto Mono', monospace;
+    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364, #0f2027);
+    background-size: 800% 800%;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #c0cbd6;
+    animation: gradientShift 15s ease infinite;
+  }
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  .login-container {
+    background: #121823;
+    padding: 45px 50px;
+    border-radius: 15px;
+    box-shadow:
+      0 0 10px #00ffc8,
+      0 0 20px #00ffc8,
+      0 0 30px #00ffc8,
+      0 0 40px #00ffc8;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    border: 2px solid #00ffc8;
+  }
+  h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #00ffc8;
+    margin-bottom: 30px;
+    font-size: 2rem;
+    letter-spacing: 3px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  h2 .icon {
+    font-size: 2.2rem;
+    filter: drop-shadow(0 0 6px #00ffc8);
+  }
+  input[type="password"] {
+    width: 100%;
+    padding: 16px 18px;
+    margin: 10px 0 25px 0;
+    border: 2px solid #00ffc8;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    background: #0a131e;
+    color: #00ffc8;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    letter-spacing: 2px;
+  }
+  input[type="password"]::placeholder {
+    color: #00ffc8aa;
+  }
+  input[type="password"]:focus {
+    border-color: #00fff0;
+    box-shadow: 0 0 8px #00fff0;
+  }
+  button {
+    background-color: #00ffc8;
+    color: #0a131e;
+    border: none;
+    padding: 16px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 0 8px #00ffc7;
+    text-transform: uppercase;
+  }
+  button:hover {
+    background-color: #00e6c2;
+    box-shadow: 0 0 20px #00e6c2;
+  }
+  .error {
+    color: #ff3860;
+    margin-top: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: none;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+  <div class="login-container">
+    <h2><span class="icon">💾</span>ID ACESSO</h2>
+    <input type="password" id="password" placeholder="Digite o ID" autofocus autocomplete="off" />
+    <button onclick="checkPassword()">Entrar</button>
+    <div id="error-msg" class="error">ID incorreto. Tente novamente.</div>
+  </div>
+
+<script>
+  function checkPassword() {
+    const senha = document.getElementById('password').value.trim();
+    const errorMsg = document.getElementById('error-msg');
+    if (senha === 'gastos') {
+      // senha correta, redirecionar para página principal
+      window.location.href = 'gastos.html';
+    } else {
+      // senha incorreta, mostrar erro
+      errorMsg.style.display = 'block';
+    }
+  }
+  // Permitir enviar com enter
+  document.getElementById('password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      checkPassword();
+    }
+  });
+</script>
+</body>
+</html>
+
