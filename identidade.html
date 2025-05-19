@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cyber Stop Fullscreen Image with Auto Fullscreen and Button</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background: black;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white;
+        }
+        #fullscreen-image {
+            width: 100vw;
+            height: 100vh;
+            object-fit: contain;
+            display: block;
+            background: black;
+            margin: 0 auto;
+        }
+        #fullscreen-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid white;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+            user-select: none;
+            z-index: 1000;
+        }
+        #fullscreen-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        #fullscreen-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <img id="fullscreen-image" src="CYBER_STOP.png" alt="Cyber Stop Fullscreen Image" />
+    <button id="fullscreen-btn" type="button" aria-label="Entrar em tela cheia">Tela Cheia</button>
+    <script>
+        function openFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                return elem.requestFullscreen();
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                return elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                return elem.msRequestFullscreen();
+            } else {
+                return Promise.reject(new Error('Fullscreen API is not supported'));
+            }
+        }
+
+        // Attempt to auto fullscreen on load - may be blocked by browser
+        document.addEventListener('DOMContentLoaded', () => {
+            openFullscreen().catch((err) => {
+                console.log('Auto fullscreen request failed:', err.message);
+                // Optionally, inform user visually here if desired
+            });
+        });
+
+        // Fullscreen toggle button logic
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
+        fullscreenBtn.addEventListener('click', () => {
+            openFullscreen().catch((err) => {
+                console.log('Fullscreen button request failed:', err.message);
+            });
+        });
+    </script>
+</body>
+</html>
+

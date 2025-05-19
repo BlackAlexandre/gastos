@@ -1,145 +1,328 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ID Acesso</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto+Mono&display=swap');
-  body {
-    font-family: 'Roboto Mono', monospace;
-    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364, #0f2027);
-    background-size: 800% 800%;
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #c0cbd6;
-    animation: gradientShift 15s ease infinite;
-  }
-  @keyframes gradientShift {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  .login-container {
-    background: #121823;
-    padding: 45px 50px;
-    border-radius: 15px;
-    box-shadow:
-      0 0 10px #00ffc8,
-      0 0 20px #00ffc8,
-      0 0 30px #00ffc8,
-      0 0 40px #00ffc8;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-    border: 2px solid #00ffc8;
-  }
-  h2 {
-    font-family: 'Orbitron', sans-serif;
-    color: #00ffc8;
-    margin-bottom: 30px;
-    font-size: 2rem;
-    letter-spacing: 3px;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-  h2 .icon {
-    font-size: 2.2rem;
-    filter: drop-shadow(0 0 6px #00ffc8);
-  }
-  input[type="password"] {
-    width: 100%;
-    padding: 16px 18px;
-    margin: 10px 0 25px 0;
-    border: 2px solid #00ffc8;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    background: #0a131e;
-    color: #00ffc8;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    letter-spacing: 2px;
-  }
-  input[type="password"]::placeholder {
-    color: #00ffc8aa;
-  }
-  input[type="password"]:focus {
-    border-color: #00fff0;
-    box-shadow: 0 0 8px #00fff0;
-  }
-  button {
-    background-color: #00ffc8;
-    color: #0a131e;
-    border: none;
-    padding: 16px 22px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    width: 100%;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 8px #00ffc8;
-    text-transform: uppercase;
-  }
-  button:hover {
-    background-color: #00e6c2;
-    box-shadow: 0 0 20px #00e6c2;
-  }
-  .error {
-    color: #ff3860;
-    margin-top: 12px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    display: none;
-    user-select: none;
-  }
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ID Acesso</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Roboto+Mono&display=swap');
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(270deg, #0f2027, #203a43, #2c5364, #0f2027);
+            background-size: 800% 800%;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #c0cbd6;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .login-container {
+            background: #121823;
+            padding: 45px 50px;
+            border-radius: 15px;
+            box-shadow:
+                0 0 10px #00ffc8,
+                0 0 20px #00ffc8,
+                0 0 30px #00ffc8,
+                0 0 40px #00ffc8;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid #00ffc8;
+            position: relative;
+            z-index: 1;
+        }
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffc8;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            letter-spacing: 3px;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        h2 .icon {
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 6px #00ffc8);
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 16px 18px;
+            margin: 10px 0 25px 0;
+            border: 2px solid #00ffc8;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            background: #0a131e;
+            color: #00ffc8;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            letter-spacing: 2px;
+        }
+        input[type="password"]::placeholder {
+            color: #00ffc8aa;
+        }
+        input[type="password"]:focus {
+            border-color: #00fff0;
+            box-shadow: 0 0 8px #00fff0;
+        }
+        button {
+            background-color: #00ffc8;
+            color: #0a131e;
+            border: none;
+            padding: 16px 22px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            width: 100%;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 8px #00ffc8;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button:hover {
+            background-color: #00e6c2;
+            box-shadow: 0 0 20px #00e6c2;
+        }
+        .error {
+            color: #ff3860;
+            margin-top: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: none;
+            user-select: none;
+        }
+
+        /* Estilos do Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: #121823;
+            border: 2px solid #00ffc8;
+            border-radius: 15px;
+            padding: 30px 40px;
+            max-width: 360px;
+            width: 100%;
+            box-shadow:
+                0 0 20px #00ffc8,
+                0 0 35px #00ffc8;
+            color: #00ffc8;
+            position: relative;
+        }
+        .modal-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-btn {
+            cursor: pointer;
+            font-size: 1.8rem;
+            color: #00ffc8;
+            border: none;
+            background: transparent;
+            font-weight: 700;
+            line-height: 1;
+            user-select: none;
+            transition: color 0.3s;
+        }
+        .close-btn:hover {
+            color: #00fff0;
+        }
+
+        .id-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            user-select: none;
+        }
+        .id-text {
+            filter: blur(6px);
+            transition: filter 0.3s ease;
+        }
+        .id-text.visible {
+            filter: none;
+        }
+
+        .eye-btn {
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+            color: #00ffc8;
+            transition: color 0.3s;
+        }
+        .eye-btn:hover {
+            color: #00fff0;
+        }
+
+        /* Estilo para o botão de olho separado */
+        .eye-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        /* Estilo para a mensagem de acesso restrito */
+        .restricted-message {
+            display: none;
+            font-size: 0.9rem;
+            color: #ff3860;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container">
-    <h2><span class="icon">💾</span>ID ACESSO</h2>
-    <input type="password" id="password" placeholder="Digite o ID" autofocus autocomplete="off" />
-    <button onclick="checkPassword()">Entrar</button>
-    <div id="error-msg" class="error">ID inexistente. Tente novamente.</div>
-  </div>
+    <div class="login-container">
+        <h2><span class="icon">💾</span>ID ACESSO</h2>
+        <input type="password" id="password" placeholder="Digite o ID" autofocus autocomplete="off" />
+        <button onclick="checkPassword()" aria-label="Entrar">Entrar</button>
+        <button type="button" id="show-ids-btn" aria-label="Mostrar IDs">Mostrar IDs</button>
+        <div id="error-msg" class="error">ID inexistente. Tente novamente.</div>
+    </div>
 
-<script>
-  function checkPassword() {
-    const senha = document.getElementById('password').value.trim();
-    const errorMsg = document.getElementById('error-msg');
-    errorMsg.style.display = 'none'; // Hide error initially
-    if (senha === 'gastos') {
-      // senha correta, redirecionar para página principal gastos.html
-      window.location.href = 'gastos.html';
-    } else if (senha === 'slides') {
-      // outra senha correta direciona para outra página admin.html
-      window.location.href = 'slides.html';
-    } else {
-      // senha incorreta, mostrar erro
-      errorMsg.style.display = 'block';
-    }
-  }
-  // Permitir enviar com enter
-  document.getElementById('password').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      checkPassword();
-    }
-  });
-</script>
+    <!-- Modal para mostrar IDs borrados -->
+    <div class="modal-overlay" id="ids-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div id="modal-title">Lista de IDs</div>
+                <button class="close-btn" id="close-modal" aria-label="Fechar modal">&times;</button>
+            </div>
+            <div class="id-item">
+                <span class="id-text" id="id-gastos">gastos</span>
+                <span class="id-title"> (ID para gastos)</span>
+            </div>
+            <div class="eye-btn-container">
+                <button class="eye-btn" aria-label="Mostrar gastos" data-target="id-gastos" title="Mostrar/Ocultar gastos">&#128065;</button>
+            </div>
+            <div class="id-item">
+                <span class="id-text" id="id-slides">slides</span>
+                <span class="id-title"> (ID para apresentação)</span>
+                <div class="restricted-message">Acesso restrito apenas para admins do projeto</div>
+            </div>
+            <div class="eye-btn-container">
+                <button class="eye-btn" aria-label="Mostrar slides" data-target="id-slides" title="Mostrar/Ocultar slides">&#128065;</button>
+            </div>
+            <div class="id-item">
+                <span class="id-text" id="id-identidade">identidade</span>
+                <span class="id-title"> (ID para panfleto)</span>
+                <div class="restricted-message">Acesso restrito apenas para admins do projeto</div>
+            </div>
+            <div class="eye-btn-container">
+                <button class="eye-btn" aria-label="Mostrar identidade" data-target="id-identidade" title="Mostrar/Ocultar identidade">&#128065;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const senha = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('error-msg');
+            errorMsg.style.display = 'none'; // Esconder mensagem de erro inicialmente
+
+            // Verifica se o ID é 'gastos'
+            if (senha === 'gastos') {
+                window.open('gastos.html', '_blank');
+            } else if (senha === 'slides') {
+                // Redireciona para a página de apresentação
+                window.open('slides.html', '_blank');
+            } else if (senha === 'identidade') {
+                // Redireciona para a página de panfleto
+                window.open('identidade.html', '_blank');
+            } else {
+                errorMsg.innerText = "ID inexistente. Tente novamente.";
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        document.getElementById('password').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // Modal related code
+        const modal = document.getElementById('ids-modal');
+        const showIdsBtn = document.getElementById('show-ids-btn');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // Show the modal on clicking the "Mostrar IDs" button
+        showIdsBtn.addEventListener('click', () => {
+            // Blur all ids initially
+            modal.querySelectorAll('.id-text').forEach(el => {
+                el.classList.remove('visible');
+            });
+            modal.classList.add('active');
+        });
+
+        // Close modal handler
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // Toggle blur by clicking eye buttons
+        modal.querySelectorAll('.eye-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                let targetId = btn.getAttribute('data-target');
+                let targetEl = document.getElementById(targetId);
+                
+                // Exibir o ID sem solicitar senha
+                targetEl.classList.toggle('visible');
+                btn.title = targetEl.classList.contains('visible') ? "Ocultar " + targetEl.textContent : "Mostrar " + targetEl.textContent;
+
+                // Exibir ou ocultar a mensagem de acesso restrito
+                const restrictedMessage = targetEl.nextElementSibling; // A mensagem de acesso restrito
+                restrictedMessage.style.display = targetEl.classList.contains('visible') ? 'block' : 'none';
+            });
+        });
+
+        // Accessibility: close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
-
