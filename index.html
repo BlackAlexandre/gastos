@@ -92,7 +92,7 @@
     font-weight: 700;
     letter-spacing: 2.5px;
     transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 0 8px #00ffc7;
+    box-shadow: 0 0 8px #00ffc8;
     text-transform: uppercase;
   }
   button:hover {
@@ -114,16 +114,20 @@
     <h2><span class="icon">💾</span>ID ACESSO</h2>
     <input type="password" id="password" placeholder="Digite o ID" autofocus autocomplete="off" />
     <button onclick="checkPassword()">Entrar</button>
-    <div id="error-msg" class="error">ID incorreto. Tente novamente.</div>
+    <div id="error-msg" class="error">ID inexistente. Tente novamente.</div>
   </div>
 
 <script>
   function checkPassword() {
     const senha = document.getElementById('password').value.trim();
     const errorMsg = document.getElementById('error-msg');
+    errorMsg.style.display = 'none'; // Hide error initially
     if (senha === 'gastos') {
-      // senha correta, redirecionar para página principal
+      // senha correta, redirecionar para página principal gastos.html
       window.location.href = 'gastos.html';
+    } else if (senha === 'slides') {
+      // outra senha correta direciona para outra página admin.html
+      window.location.href = 'slides.html';
     } else {
       // senha incorreta, mostrar erro
       errorMsg.style.display = 'block';

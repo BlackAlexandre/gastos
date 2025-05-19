@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastos Públicos com Viagens Internacionais</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #007BFF;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .slider {
+            position: relative;
+            width: 100%; /* Ocupar toda a largura */
+            height: 100vh; /* Ocupar toda a altura da tela */
+            margin: auto;
+            overflow: hidden;
+            border: 2px solid #007BFF;
+            border-radius: 10px;
+            display: flex; /* Flexbox para alinhar conteúdo */
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%; /* Para garantir que ocupe todo o espaço */
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 80px; /* Aumentado para mais espaço */
+            background: white;
+            text-align: center; /* Alinhamento central para imagem */
+            display: flex; /* Flexbox para alinhar texto e imagem */
+            align-items: center; /* Centraliza verticalmente */
+            justify-content: center; /* Centraliza horizontalmente */
+        }
+        .slide img {
+            max-width: 100%; /* Ajustar a largura da imagem */
+            height: auto;
+        }
+        button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .prev {
+            left: 10px;
+        }
+        .next {
+            right: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #007BFF;
+            color: white;
+        }
+        .fullscreen {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        /* Estilo para tela cheia */
+        :fullscreen .slider {
+            width: 100vw; /* Ocupar toda a largura da tela */
+            height: 100vh; /* Ocupar toda a altura da tela */
+            border: none; /* Remover bordas em tela cheia */
+            border-radius: 0; /* Remover bordas arredondadas em tela cheia */
+        }
+        :fullscreen .slide {
+            padding: 40px; /* Ajustar o padding em tela cheia */
+        }
+        :fullscreen .slide img {
+            max-width: 90%; /* Ajustar a largura da imagem em tela cheia */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gastos Públicos com Viagens Internacionais</h1>
+        <button class="fullscreen" onclick="toggleFullScreen()">Tela Cheia</button>
+    </header>
+    
+    <div class="slider">
+        <div class="slides">
+            <div class="slide active">
+                <img src="1.png" alt="Imagem representativa do panorama geral">
+            </div>
+            <div class="slide">
+                <img src="2.png" alt="Imagem dos principais destinos">
+            </div>
+            <div class="slide">
+                <img src="3.png" alt="Imagem dos maiores gastos individuais">
+            </div>
+            <div class="slide">
+                <img src="4.png" alt="Imagem dos problemas identificados">
+            </div>
+            <div class="slide">
+                <img src="5.png" alt="Imagem das recomendações">
+            </div>
+            <div class="slide">
+                <img src="6.png" alt="Imagem das recomendações">
+            </div>
+            <div class="slide">
+                <img src="7.png" alt="Imagem das recomendações">
+            </div>
+            <div class="slide">
+                <img src="8.png" alt="Imagem das recomendações">
+            </div>
+        </div>
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </div>
+
+    <footer>
+        <p>Informações completas no site: <a href="https://blackalexandre.github.io/gastos/" blank>blackalexandre.github.io</a></p>
+    </footer>
+
+    <script>
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            if (index >= slides.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else {
+                currentSlide = index;
+            }
+            const offset = -currentSlide * 100;
+            document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
+        }
+
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        function toggleFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Erro ao tentar entrar em tela cheia: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Inicializa o primeiro slide
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
