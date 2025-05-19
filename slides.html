@@ -125,13 +125,16 @@
             <div class="slide">
                 <img src="8.png" alt="Imagem das recomendações">
             </div>
+            <div class="slide">
+                <img src="ESCANEIE AQUI.png" alt="Imagem das informacoes">
+            </div>
         </div>
         <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
         <button class="next" onclick="changeSlide(1)">&#10095;</button>
     </div>
 
     <footer>
-        <p>Informações completas no site: <a href="https://blackalexandre.github.io/gastos/" blank>blackalexandre.github.io</a></p>
+        <p>Informações completas no site: <a href="https://blackalexandre.github.io/gastos/" target="_blank">blackalexandre.github.io</a></p>
     </footer>
 
     <script>
@@ -165,6 +168,15 @@
                 }
             }
         }
+
+        // Adiciona evento de teclado
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'a' || event.key === 'ArrowLeft') {
+                changeSlide(-1); // Volta um slide
+            } else if (event.key === 'd' || event.key === 'ArrowRight') {
+                changeSlide(1); // Avança um slide
+            }
+        });
 
         // Inicializa o primeiro slide
         showSlide(currentSlide);
